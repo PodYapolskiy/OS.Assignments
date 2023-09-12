@@ -1,0 +1,7 @@
+   62  mkdir temp
+   63  touch temp/temp.txt
+   64  whoami > temp/temp.txt
+   65  rm -r temp
+   66  date
+   67  echo "~Tanenbaum enjoyer~"
+   68  history | tail -n 7 > ex2.txt
