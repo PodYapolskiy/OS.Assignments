@@ -21,8 +21,6 @@ void* aggregate(
             free(initial_value);
             initial_value = answer;
         }
-
-        answer = &initial_value;
     } else if (sizeof(double) == size) {
         for (int i = 0; i < n; i++) {
             answer = opr(&((double*) base)[i], (double*) answer);
@@ -30,7 +28,7 @@ void* aggregate(
             initial_value = answer;
         }
     }
-    return answer;
+    return initial_value;
 }
 
 void* add_int(const void* a, const void* b) {
@@ -77,30 +75,37 @@ int main() {
     int_sum_p[0] = 0;
 
     int* int_mul_p = (int*) malloc(sizeof(int));
-    int_sum_p[0] = 1;
+    int_mul_p[0] = 1;
 
     int* int_max_p = (int*) malloc(sizeof(int));
-    int_sum_p[0] = INT_MIN;
+    int_max_p[0] = INT_MIN;
 
     double* double_sum_p = (double*) malloc(sizeof(double));
     double_sum_p[0] = 0.0;
 
     double* double_mul_p = (double*) malloc(sizeof(double));
-    double_sum_p[0] = 1.0;
+    double_mul_p[0] = 1.0;
 
     double* double_max_p = (double*) malloc(sizeof(double));
-    double_sum_p[0] = -DBL_MAX; // real crutch (✨love C proramming✨)
+    double_max_p[0] = -DBL_MAX; // real crutch (✨love C proramming✨)
 
-    aggregate(arr1, sizeof(int), SIZE, (void*) &int_sum_p, &add_int);
-    aggregate(arr2, sizeof(double), SIZE, (void*) &double_mul_p, &multiply_double);
-    aggregate(arr2, sizeof(double), SIZE, (void*) &double_max_p, &max_double);
+    int* int_sum = aggregate(arr1, sizeof(int), SIZE, int_sum_p, add_int);
+    int* int_mul = aggregate(arr1, sizeof(int), SIZE, int_mul_p, multiply_int);
+    int* int_max = aggregate(arr1, sizeof(int), SIZE, int_max_p, max_int);
 
-    free(int_sum_p);
-    free(int_mul_p);
-    free(int_max_p);
-    free(double_sum_p);
-    free(double_mul_p);
-    free(double_max_p);
+    double* double_sum = aggregate(arr2, sizeof(double), SIZE, double_sum_p, add_double);
+    double* double_mul = aggregate(arr2, sizeof(double), SIZE, double_mul_p, multiply_double);
+    double* double_max = aggregate(arr2, sizeof(double), SIZE, double_max_p, max_double);
+
+    printf("%d %d %d\n", *int_sum, *int_mul, *int_max);
+    printf("%f %f %f\n", *double_sum, *double_mul, *double_max);
+
+    free(int_sum);
+    free(int_mul);
+    free(int_max);
+    free(double_sum);
+    free(double_mul);
+    free(double_max);
 
     return 0;
 }
