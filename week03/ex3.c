@@ -125,15 +125,15 @@ int main() {
     add_file(&ex3_1, &home);
     add_file(&ex3_2, &home);
 
-    overwrite_file(&ex3_1, "int printf(const char* format, ...);");
-    overwrite_file(&ex3_2, "//This is a comment in C language");
+    overwrite_file(&ex3_1, "int printf(const char* format, ...);\n");
+    overwrite_file(&ex3_2, "//This is a comment in C language\n");
 
     append_to_file(&bash, "Bourne Again Shell\n");
     append_to_file(&ex3_1, "int main(){printf(\"Hello World!\")}\n");
 
     show_dir(&root); // show "tree" starting with root
     printp_file(&ex3_1); // output ex3_1.c's full path
-    printf("%s\n", bash.data); // output bash's content
+    printf("%s\n", ex3_1.data); // output bash's content
 
     return 0;
 }
