@@ -1,0 +1,3 @@
+As we can obtain, the amount of processes grow significantly. Each process borns i - 1 child processes making a process tree deeper and deeper with further iterations.
+
+The difference between n = 3 and n = 5 can be described in terms of quintity. The tree gets more enourmous even with increasing number by 2. It means that with growing and growing number we will obtain hundreds or even thousands of processes which is incapable to be called as an efficient program.
