@@ -1,0 +1,3 @@
+The more threads are in use, the faster program executes. Execution time is inversely proportional to the number of threads.
+
+P.S. As we will see in ex4 this solution is approximately as efficient as a solution with mutexes.
