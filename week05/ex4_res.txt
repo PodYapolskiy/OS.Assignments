@@ -1,0 +1,5 @@
+Number of prime numbers in [0, 10000000) with 1 threads: 664579
+Number of prime numbers in [0, 10000000) with 2 threads: 664579
+Number of prime numbers in [0, 10000000) with 4 threads: 664579
+Number of prime numbers in [0, 10000000) with 10 threads: 664579
+Number of prime numbers in [0, 10000000) with 100 threads: 664579

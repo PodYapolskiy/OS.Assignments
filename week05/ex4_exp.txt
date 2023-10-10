@@ -1,0 +1,4 @@
+Similar to the previous exercise,the dependence of time on the number of threads is inversely proportional. First several runs are slower, but afterwards there is no big difference in time and it slowly grows again. Perhaps, actions with mutexes decrease time more significantly with big number of threads. Copmaring to the results of ex3, we can see that for small number of threads the mutex usage makes computation approximately the same. With the mutex, the execution time decreases sharply with the increase in the number of threads after first compilation. If we want to use sufficiently small number of threads it is better to use program with the mutex usage to increase efficiency.
+
+P.S. Probably also the amount of real threads in the processor makes sense. In my case (2 cores and 4 threads) significant difference appears only until n <= 4
+(provide small comment on whether I'm right or not if possible please)
