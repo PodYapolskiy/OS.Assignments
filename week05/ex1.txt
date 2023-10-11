@@ -1,0 +1,1 @@
+We have to use n named pipes to ensure that each subscriber can receive messages independently. By creating separate named pipes for each subscriber, you isolate their message reception, ensuring that the messages intended for one subscriber do not interfere with those intended for another. This isolation also helps to prevent message mixing.
