@@ -22,19 +22,15 @@ int primes_count(int a, int b) {
 
 // argument to the start_routine of the thread
 typedef struct PrimeStruct {
-    int a, b;
+    int start, end;
 } PrimeStruct;
-
-int total_count = 0; // global variable to hold the total count
 
 // thread function to count primes in a subinterval
 void* prime_counter(void* arg) {
-    PrimeStruct* req = (PrimeStruct*) arg;
-    int count = primes_count(req->a, req->b);
-
-    total_count += count; // increase total count
-
-    return NULL;
+    int* count = (int*) malloc(sizeof(int)); // res of this thread
+    PrimeStruct* req = (PrimeStruct*) arg; // get start and end of the interval
+    *count = primes_count(req->start, req->end); // get the value of the interval
+    return ((void*) count); // thread return
 }
 
 int main(int argc, char* argv[]) {
@@ -59,8 +55,8 @@ int main(int argc, char* argv[]) {
 
     for (int i = 0; i < m; i++) {
         // assign boundaries also noticing case with remainder
-        primes[i].a = i * interval_size;
-        primes[i].b = (i + 1) * interval_size + (i == m - 1 ? remainder : 0);
+        primes[i].start = i * interval_size;
+        primes[i].end = (i + 1) * interval_size + (i == m - 1 ? remainder : 0);
 
         if (pthread_create(&threads[i], NULL, prime_counter, &primes[i]) != 0) {
             perror("pthread_create");
@@ -68,12 +64,16 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    int total_count = 0; // variable to hold the total count
+
     // terminate all threads
     for (int i = 0; i < m; i++) {
-        pthread_join(threads[i], NULL);
+        int* thread_result;
+        pthread_join(threads[i], (void**) &thread_result);
+        total_count += *thread_result;
     }
 
-    printf("Number of prime numbers in [0, %d) with %d threads: %d\n", n, m, total_count);
+    // printf("Number of prime numbers in [0, %d) with %d threads: %d\n", n, m, total_count);
 
     return 0;
 }

@@ -1,5 +1,20 @@
-Number of prime numbers in [0, 10000000) with 1 threads: 664579
-Number of prime numbers in [0, 10000000) with 2 threads: 664579
-Number of prime numbers in [0, 10000000) with 4 threads: 664579
-Number of prime numbers in [0, 10000000) with 10 threads: 664579
-Number of prime numbers in [0, 10000000) with 100 threads: 664579
+
+real	0m13,344s
+user	0m13,278s
+sys	0m0,005s
+
+real	0m7,778s
+user	0m12,477s
+sys	0m0,004s
+
+real	0m6,538s
+user	0m17,217s
+sys	0m0,020s
+
+real	0m5,540s
+user	0m18,913s
+sys	0m0,040s
+
+real	0m5,413s
+user	0m19,142s
+sys	0m0,040s
