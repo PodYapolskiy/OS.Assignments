@@ -71,9 +71,10 @@ int main(int argc, char* argv[]) {
         int* thread_result;
         pthread_join(threads[i], (void**) &thread_result);
         total_count += *thread_result;
+        free(thread_result);
     }
 
-    // printf("Number of prime numbers in [0, %d) with %d threads: %d\n", n, m, total_count);
+    printf("Number of prime numbers in [0, %d) with %d threads: %d\n", n, m, total_count);
 
     return 0;
 }
