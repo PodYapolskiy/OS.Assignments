@@ -1,0 +1,5 @@
+Throughput of First Fit algorithm: 53.062072
+Throughput of Best Fit algorithm: 20.530260
+Throughput of Worst Fit algorithm: 22.411888
+
+Obtained the results above, we can say that First Fit algorithm is definitely more efficient on that particular case when we have huge memory and few blocks to insert. It does not mean that other two algorithms are more useless. They enable more efficient usage of memory meanwhile it takes more time.
