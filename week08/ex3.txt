@@ -1,0 +1,3 @@
+We obtain the following: si and so values almost always are non zero in the first iteration. Then, they keep being zeros with some exceptions. So, swap in and swap out are not likely to be occured in this program execution.
+
+The main property to observe is free memory, which is slowly and constanly decreasing after each memory allocation (exactly how it should behave logically).
