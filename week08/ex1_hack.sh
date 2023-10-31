@@ -22,7 +22,10 @@ start="0x$heap_start"
 end="0x$heap_end"
 
 # sudo xxd -s $start -l $(($end - $start)) /proc/$pid/mem | less 
-sudo xxd -s $start -l $(($end - $start)) /proc/$pid/mem | less | grep -o "pass:.\{0,8\}"
-# sudo xxd -s $start -l $(($end - $start)) /proc/$pid/mem | less | grep -o -a -b 'pass:.\{0,8\}' # | awk -F: '{print "Memory Address: " $1, "String: " $2 ":" $3}'
+memory_address=$(sudo xxd -s $start -l $(($end - $start)) /proc/$pid/mem | less | grep "pass:.\{0,8\}" | cut -d ':' -f 1)
+password=$(sudo xxd -s $start -l $(($end - $start)) /proc/$pid/mem | less | grep -o "pass:.\{0,8\}")
+
+echo "Memory address: $memory_address"
+echo "Password: $password"
 
 kill -9 $pid # send SIGKILL to the ex1.c program
