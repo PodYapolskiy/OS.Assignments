@@ -1,3 +1,5 @@
 We obtain the following: si and so values almost always are non zero in the first iteration. Then, they keep being zeros with some exceptions. So, swap in and swap out are not likely to be occured in this program execution.
 
 The main property to observe is free memory, which is slowly and constanly decreasing after each memory allocation (exactly how it should behave logically).
+
+We can make an experiment and make program allocate more memory on each iteration (i.e. 1000 MB) we will notice huge amount of decreasing free memory and we will start obtaining swap outs and swap ins significantly changing performance results.

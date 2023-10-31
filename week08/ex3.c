@@ -6,7 +6,7 @@
 
 int main() {
     struct rusage usage;
-    int size = 10 * 1024 * 1024; // 10 MB
+    int size = 10 * 1024 * 1024; // 10 MB (try 1000 MB)
 
     for (int i = 0; i < 10; i++) {
         // allocate memory
