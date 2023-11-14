@@ -37,11 +37,13 @@ bool is_event_to_track(struct inotify_event* event) {
     return false;
 }
 
-void handle_termination(int signum) {
-    // handle SIGTERM by printing stat info for all entries and then terminating
-    printf("Received SIGTERM. Printing stat info for all entries:\n");
-    print_stat_info(path);
-    exit(0);
+void handle_interruption(int signum) {
+    // handle SIGINT by printing stat info for all entries and then interrupting
+    if (signum == SIGINT) {
+        printf("Received SIGINT. Printing stat info for all entries:\n");
+        print_stat_info(path);
+        exit(0);
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -53,8 +55,8 @@ int main(int argc, char* argv[]) {
     // extract path to watch
     path = argv[1];
 
-    // set up signal handling for SIGTERM
-    signal(SIGTERM, handle_termination);
+    // set up signal handling for SIGINT
+    signal(SIGINT, handle_interruption);
 
     int inotify_fd = inotify_init();
     if (inotify_fd == -1) {
@@ -86,7 +88,7 @@ int main(int argc, char* argv[]) {
 
             // prevent some strange null events
             // if (strcmp(event->name, "") == 0 || event->len == 0) {
-            if (!is_event_to_track(event)) {
+            if (!is_event_to_track(event) || event->name == NULL) {
                 continue;
             }
 

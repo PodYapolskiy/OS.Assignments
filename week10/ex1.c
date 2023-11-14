@@ -15,29 +15,33 @@ char* path;
 void find_all_hlinks(const char* source) {
     DIR* dir;
 
+    // entries
     struct dirent* entry;
     struct stat entry_stat, source_stat;
 
+    // paths
     char full_path[PATH_MAX];
     char real_source[PATH_MAX];
 
+    // collect info on source
     if (lstat(source, &source_stat) == -1) {
         perror("Error getting file information");
         exit(EXIT_FAILURE);
     }
 
+    // construct real path
     if (realpath(source, real_source) == NULL) {
         perror("Error getting realpath");
         exit(EXIT_FAILURE);
     }
 
+    // try to open watched directory
     if ((dir = opendir(path)) == NULL) {
         perror("Error opening directory");
         exit(EXIT_FAILURE);
     }
 
     printf("Hard links for %s (inode %lu):\n", real_source, (unsigned long) source_stat.st_ino);
-
     while ((entry = readdir(dir)) != NULL) {
         snprintf(full_path, sizeof(full_path), "%s/%s", path, entry->d_name);
 
@@ -46,19 +50,23 @@ void find_all_hlinks(const char* source) {
             exit(EXIT_FAILURE);
         }
 
+        // conditions to be a hard link
         if (S_ISREG(entry_stat.st_mode) && entry_stat.st_ino == source_stat.st_ino &&
             strcmp(full_path, real_source) != 0) {
             char real_path[PATH_MAX];
+
             if (realpath(full_path, real_path) == NULL) {
                 perror("Error getting realpath");
                 exit(EXIT_FAILURE);
             }
 
+            // copy content
             char content[256];
             FILE* out = fopen(real_path, "r");
             fscanf(out, "%[^\n]", content);
             fclose(out);
 
+            // print needed info of hard link
             printf("%s\n", entry->d_name);
             printf("\tInode: %lu\n\tPath: %s\n\tContent: %s\n", (unsigned long) entry_stat.st_ino, real_path, content);
         }
@@ -83,20 +91,20 @@ void unlink_all(const char* source) {
 
     printf("Unlinking all duplicates for %s (inode %lu):\n", real_source, (unsigned long) source_stat.st_ino);
 
-    // Iterate through all hard links and unlink them, keeping only one
+    // iterate through all hard links and unlink them, keeping only one
     struct stat entry_stat;
     char full_path[PATH_MAX];
 
     DIR* dir;
     struct dirent* entry;
 
-    if ((dir = opendir(".")) == NULL) {
+    if ((dir = opendir(path)) == NULL) {
         perror("Error opening directory");
         exit(EXIT_FAILURE);
     }
 
     while ((entry = readdir(dir)) != NULL) {
-        snprintf(full_path, sizeof(full_path), "%s/%s", ".", entry->d_name);
+        snprintf(full_path, sizeof(full_path), "%s/%s", path, entry->d_name);
 
         if (lstat(full_path, &entry_stat) == -1) {
             perror("Error getting file information");
@@ -113,7 +121,7 @@ void unlink_all(const char* source) {
         }
     }
 
-    // Print the path of the last hard link
+    // print the stat info of the last kept hard link
     printf("Last hard link: %s\n", real_source);
 
     closedir(dir);
@@ -125,7 +133,7 @@ void create_sym_link(const char* source, const char* link) {
         exit(EXIT_FAILURE);
     }
 
-    // printf("Created symbolic link from %s to %s\n", link, source);
+    printf("Created symbolic link from %s to %s\n", link, source);
 }
 
 int main(int argc, char* argv[]) {
@@ -134,7 +142,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    char temp_path[128];
+    char temp_path[PATH_MAX];
     path = argv[1];
 
     // strings temp
@@ -180,9 +188,6 @@ int main(int argc, char* argv[]) {
     fprintf(f11, "PUT YOUR PERSONAL LIFE AWAY, LET'S DO OS HOMEWORK! ");
     fclose(f11);
 
-    // TODO: report
-    // pause();
-
     // create a symbolic link "myfile13.txt" in watched to "/tmp/myfile1.txt"
     strcpy(temp_path, path);
     strcat(temp_path, "/");
@@ -196,24 +201,16 @@ int main(int argc, char* argv[]) {
     fprintf(f1, "I'm masochist, I enjoy debugging C ");
     fclose(f1);
 
-    // TODO: report
-    // pause();
-
-    // TODO: remove all duplicates of hard links to "myfile11.txt" only in watched directory
+    // remove all duplicates of hard links to "myfile11.txt" only in watched directory
     strcpy(temp_path, path);
     strcat(temp_path, "/");
     strcat(temp_path, file11);
     unlink_all(temp_path);
-    pause();
 
-    // TODO: print the stat info of the kept hard link
-    // ...    
-
-    // TODO: Check the number of hard links and explain the difference
-    // ...
-
-    // TODO: report
-    // pause();
+    // check the number of hard links on "myfile11.txt"
+    struct stat s;
+    stat(temp_path, &s);
+    printf("Number of hard links on \"myfile11.txt\": %ld\n", s.st_nlink);
 
     return 0;
 }

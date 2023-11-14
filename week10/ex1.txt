@@ -1,0 +1,20 @@
+1. Comment after moving myfile1.txt to /tmp/ and modifying myfile11.txt:
+Monitor program reported on modified "myfile11.txt" and also 
+illustrated that size of the file increased from 13 bytes up to 64
+
+2. Comment after creating symbolic link and modifying /tmp/myfile1.txt:
+Monitor also showed the event. Since we edit content in /tmp/file1.txt, 
+it changes in every file with the same i-node and symbolic link also points on
+changed data
+
+3. Comment after removing dublicates of hard links in watched directory:
+After unlinking only in the watched directory, the only "myfile12.txt" 
+was unlinked and "myfile11.txt" left the last one.
+That did not touch the /tmp/myfile1 because we checked files only 
+in the watched directory. And we also did not count symbolic links.
+
+After removal we obtained that number of hard links appeared as 2.
+Exactly the value that can be expected since "myfile1" kept in given path directory
+and "/tmp/myfile1" stayed unchanged. They still keeps the same i-node number.
+
+
