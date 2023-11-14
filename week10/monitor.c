@@ -42,6 +42,7 @@ void handle_interruption(int signum) {
     if (signum == SIGINT) {
         printf("Received SIGINT. Printing stat info for all entries:\n");
         print_stat_info(path);
+        sleep(3);
         exit(0);
     }
 }
