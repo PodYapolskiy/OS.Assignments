@@ -1,0 +1,42 @@
+LOFS "/":
+/..
+/file2
+/.
+/ex1
+/lib
+/lost+found
+/lib64
+/bin
+/file1
+
+Normal "/":
+/sys
+/.
+/proc
+/run
+/root
+/lib64
+/sbin
+/etc
+/media
+/srv
+/cdrom
+/lost+found
+/bin
+/tmp
+/home
+/dev
+/var
+/mnt
+/..
+/boot
+/opt
+/lib
+/swapfile
+/libx32
+/usr
+/lib32
+/snap
+
+The findings:
+We see different results because after chroot the only accessible directories were inside .lofsdisk. It's like a jail to a program when it sees that root the most upper one and can not access any upper. That's why in the 1st case we got only components of .lofsdisk as root for changed root and in the 2nd case we got the normal expected results of / directory
