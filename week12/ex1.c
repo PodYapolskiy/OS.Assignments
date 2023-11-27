@@ -108,25 +108,28 @@ int handle_shortcuts(struct input_event* event) {
     if (event->value != 1) return -1;
 
     // termination shortcut (E+X)
-    if (history[1] == KEY_E &&
-        history[0] == KEY_X
-        ) return 0;
+    if ((history[1] == KEY_E && history[0] == KEY_X) ||
+        (history[1] == KEY_X && history[0] == KEY_E))
+        return 0;
 
     // first given shortcut (P+E)
-    else if (history[1] == KEY_P &&
-             history[0] == KEY_E
-             ) return 1;
+    else if ((history[1] == KEY_P && history[0] == KEY_E) ||
+             (history[1] == KEY_E && history[0] == KEY_P))
+        return 1;
 
     // second given shortcut (C+A+P)
-    else if (history[2] == KEY_C &&
-             history[1] == KEY_A &&
-             history[0] == KEY_P
-             ) return 2;
+    else if ((history[2] == KEY_C && history[1] == KEY_A && history[0] == KEY_P) ||
+             (history[2] == KEY_C && history[1] == KEY_P && history[0] == KEY_A) ||
+             (history[2] == KEY_A && history[1] == KEY_C && history[0] == KEY_P) ||
+             (history[2] == KEY_A && history[1] == KEY_P && history[0] == KEY_C) ||
+             (history[2] == KEY_P && history[1] == KEY_A && history[0] == KEY_C) ||
+             (history[2] == KEY_P && history[1] == KEY_C && history[0] == KEY_A))
+        return 2;
 
     // custom shortcut (O+S)
-    else if (history[1] == KEY_O &&
-             history[0] == KEY_S
-             ) return 3;
+    else if ((history[1] == KEY_O && history[0] == KEY_S) ||
+             (history[1] == KEY_S && history[0] == KEY_O))
+        return 3;
 
     // just not found output
     return -1;
